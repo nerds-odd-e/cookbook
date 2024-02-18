@@ -82,7 +82,7 @@ def train(
             bf16=config.model.get("bf16", False),
             logging_steps=1,
             output_dir=config.working_dir,
-            save_strategy="no",
+            # save_strategy="no",
             deepspeed=deepspeed_config,
             gradient_checkpointing=config.model.gradient_checkpointing,
             ddp_find_unused_parameters=ddp_find_unused_parameters,
