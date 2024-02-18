@@ -41,6 +41,8 @@ def train(
     if wandb_project:
         wandb.init(project=wandb_project, dir=config.working_dir)
         kwargs["report_to"] = "wandb"
+        os.environ["WANDB_LOG_MODEL"] = "checkpoint"
+        kwargs["save_steps"] = 1
     if kwargs["report_to"] != "wandb":
         # HF tries to init wandb as long as the pip package is installed
         os.environ["WANDB_DISABLED"] = "true"

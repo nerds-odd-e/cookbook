@@ -54,7 +54,7 @@ def load_train_model(config: DictConfig) -> PeftModel:
         load_in_4bit=load_in_4bit,
         load_in_8bit=load_in_8bit,
         torch_dtype=torch_dtype,
-        use_flash_attention_2=True,
+        use_flash_attention_2=False,
         device_map={"": torch.cuda.current_device()},
         **kwargs,
     )
