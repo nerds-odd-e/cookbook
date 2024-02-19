@@ -38,11 +38,27 @@ def train(
         wandb.login(key=wandb_key)
         kwargs["report_to"] = "wandb"
     wandb_project = config.get("wandb_project")
+    wandb_last_run_id = config.get("wandb_last_run_id")
+    wandb_checkpoint_name = config.get("wandb_checkpoint_name")
+    wandb_resume = "must" if wandb_last_run_id is not None else None
+    wandb_checkpoint_dir = None
     if wandb_project:
-        wandb.init(project=wandb_project, dir=config.working_dir)
+        # wandb.init(project=wandb_project, dir=config.working_dir)
+        # resume the wandb run from the run_id
+        with wandb.init(
+                project=os.environ["WANDB_PROJECT"],
+                id=wandb_last_run_id,
+                resume=wandb_resume,
+                dir=config.working_dir
+        ) as run:
+            # Connect an Artifact to the run
+            my_checkpoint_artifact = run.use_artifact(wandb_checkpoint_name)
+
+            # Download checkpoint to a folder and return the path
+            wandb_checkpoint_dir = my_checkpoint_artifact.download()
         kwargs["report_to"] = "wandb"
         os.environ["WANDB_LOG_MODEL"] = "checkpoint"
-        kwargs["save_steps"] = 1
+        kwargs["save_steps"] = 5
     if kwargs["report_to"] != "wandb":
         # HF tries to init wandb as long as the pip package is installed
         os.environ["WANDB_DISABLED"] = "true"
@@ -95,6 +111,6 @@ def train(
         ),
     )
     model.config.use_cache = False
-    trainer.train(resume_from_checkpoint=False)
+    trainer.train(resume_from_checkpoint=False if wandb_checkpoint_dir is None else wandb_checkpoint_dir)
 
     return model
