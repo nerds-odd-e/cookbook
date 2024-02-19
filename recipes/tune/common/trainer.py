@@ -46,7 +46,7 @@ def train(
         # wandb.init(project=wandb_project, dir=config.working_dir)
         # resume the wandb run from the run_id
         with wandb.init(
-                project=os.environ["WANDB_PROJECT"],
+                project=wandb_project,
                 id=wandb_last_run_id,
                 resume=wandb_resume,
                 dir=config.working_dir
