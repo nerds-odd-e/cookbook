@@ -39,7 +39,7 @@ def train(
         kwargs["report_to"] = "wandb"
     wandb_project = config.get("wandb_project")
     wandb_last_run_id = config.get("wandb_last_run_id")
-    wandb_checkpoint_name = config.get("wandb_checkpoint_name")
+    wandb_checkpoint_name = f"checkpoint-{wandb_last_run_id}:latest"
     wandb_resume = "must" if wandb_last_run_id is not None else None
     wandb_checkpoint_dir = None
     if wandb_project:
