@@ -56,9 +56,11 @@ def train(
 
             # Download checkpoint to a folder and return the path
             wandb_checkpoint_dir = my_checkpoint_artifact.download()
+            print(f"wandb_checkpoint_dir: {wandb_checkpoint_dir}")
         kwargs["report_to"] = "wandb"
         os.environ["WANDB_LOG_MODEL"] = "checkpoint"
-        kwargs["save_steps"] = 5
+        kwargs["save_steps"] = 1
+        kwargs["save_total_limit"] = 30
     if kwargs["report_to"] != "wandb":
         # HF tries to init wandb as long as the pip package is installed
         os.environ["WANDB_DISABLED"] = "true"
