@@ -1,0 +1,13 @@
+dataset: lora-odd-e
+
+conversation: {}
+
+# The Hugging Face model name of the base model.
+base_model: meta-llama/Llama-2-13b-hf
+
+epochs: 100
+learning_rate: 0.002
+
+wandb_entity: josephyao
+wandb_api_key: 9de7ba82bfcd29c52c1c5dbe8222df3e67af7e16
+wandb_project: just-for-test
